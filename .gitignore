@@ -1,0 +1,62 @@
+# ================================================
+# .gitignore - Controle de Boletos DDA
+# ================================================
+
+# ---- Dependências ----
+node_modules/
+
+# ---- Build / Distribuição ----
+dist/
+dist-ssr/
+build/
+
+# ---- Variáveis de ambiente (chaves, senhas, tokens) ----
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+
+# ---- Configurações com chaves de API (SENSÍVEL!) ----
+mcp.json
+
+# ---- Banco de dados local (contém dados reais) ----
+backend/database.db
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- Logs ----
+*.log
+cloudflare.log
+cloudflare_test.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ---- Arquivos locais do Vite ----
+*.local
+
+# ---- Editores / IDEs ----
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- Sistema operacional ----
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# ---- Outros ----
+*.bak
+*.tmp
+*.temp

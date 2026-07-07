@@ -1,0 +1,49 @@
+# ================================================
+# .gitignore - Frontend (Vite + React)
+# ================================================
+
+# ---- Dependências ----
+node_modules/
+
+# ---- Build / Distribuição ----
+dist/
+dist-ssr/
+build/
+
+# ---- Variáveis de ambiente (chaves, senhas, tokens) ----
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+
+# ---- Logs ----
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ---- Arquivos locais do Vite ----
+*.local
+
+# ---- Editores / IDEs ----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- Sistema operacional ----
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ---- Outros ----
+*.bak
+*.tmp
+*.temp

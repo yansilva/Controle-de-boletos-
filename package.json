@@ -1,0 +1,14 @@
+{
+  "name": "dda-controle",
+  "version": "1.0.0",
+  "description": "Sistema de controle de boletos DDA",
+  "scripts": {
+    "dev": "concurrently --names BACK,FRONT --prefix-colors blue,magenta \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && node --watch server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
