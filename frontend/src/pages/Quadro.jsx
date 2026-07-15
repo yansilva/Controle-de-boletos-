@@ -121,6 +121,7 @@ export default function Quadro() {
   const totalValor = pedidos.reduce((sum, p) => sum + (p.valor || 0), 0)
   
   return (
+    <>
     <div className="space-y-6 animate-fade-in-up h-full flex flex-col">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 animate-fade-in-up stagger-1">
@@ -165,67 +166,69 @@ export default function Quadro() {
           />
         )}
       </div>
-
-      {/* Modals */}
-      {viewPedido && (
-        <DetailModal
-          pedido={viewPedido}
-          onClose={() => setViewPedido(null)}
-        />
-      )}
-
-      {/* Edit Modal */}
-      {editPedido && (
-        <EditModal
-          pedido={editPedido}
-          onClose={() => setEditPedido(null)}
-          onSaved={() => loadPedidos()}
-        />
-      )}
-
-      {/* Historico Modal */}
-      {historicoPedido && (
-        <HistoricoModal
-          pedido={historicoPedido}
-          onClose={() => setHistoricoPedido(null)}
-        />
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {deleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up"
-          onClick={() => setDeleteConfirm(null)}>
-          <Card className="w-full max-w-sm p-6 text-center border-[#EF4444]/30" onClick={e => e.stopPropagation()}>
-            <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 bg-[#EF4444]/10 text-[#EF4444]">
-              <Trash2 size={28} />
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">Excluir Pedido?</h3>
-            <p className="text-sm text-[var(--color-text-secondary)] mb-6">
-              Tem certeza que deseja excluir o pedido <strong className="text-white">#{deleteConfirm.pedido_tiny}</strong>? Esta ação não pode ser desfeita.
-            </p>
-            <div className="flex gap-3">
-              <Button variant="secondary" className="flex-1" onClick={() => setDeleteConfirm(null)}>
-                Cancelar
-              </Button>
-              <Button className="flex-1 bg-[#EF4444] hover:bg-[#DC2626] shadow-[0_0_15px_rgba(239,68,68,0.3)]" onClick={confirmDelete}>
-                Excluir
-              </Button>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Toast Animado */}
-      {toast && (
-        <div className={`fixed bottom-8 right-8 z-50 px-6 py-4 rounded-xl text-sm font-medium shadow-2xl flex items-center gap-3 border ${
-          toast.type === 'success' 
-            ? 'bg-[#064E3B] text-[#34D399] border-[#10B981]/30' 
-            : 'bg-[#7F1D1D] text-[#FCA5A5] border-[#EF4444]/30'
-        } ${toast.exiting ? 'animate-fade-out-down' : 'animate-fade-in-up'}`}>
-          {toast.type === 'success' ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
-          {toast.message}
-        </div>
-      )}
     </div>
+
+    {/* Modals — rendered outside the main layout to avoid spacing/overflow issues */}
+    {viewPedido && (
+      <DetailModal
+        pedido={viewPedido}
+        onClose={() => setViewPedido(null)}
+        onEdit={() => {
+          setEditPedido(viewPedido)
+          setViewPedido(null)
+        }}
+      />
+    )}
+
+    {editPedido && (
+      <EditModal
+        pedido={editPedido}
+        onClose={() => setEditPedido(null)}
+        onSaved={() => loadPedidos()}
+      />
+    )}
+
+    {historicoPedido && (
+      <HistoricoModal
+        pedido={historicoPedido}
+        onClose={() => setHistoricoPedido(null)}
+      />
+    )}
+
+    {deleteConfirm && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up"
+        onClick={() => setDeleteConfirm(null)}>
+        <Card className="w-full max-w-sm p-6 text-center border-[#EF4444]/30" onClick={e => e.stopPropagation()}>
+          <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 bg-[#EF4444]/10 text-[#EF4444]">
+            <Trash2 size={28} />
+          </div>
+          <h3 className="text-lg font-bold text-white mb-2">Excluir Pedido?</h3>
+          <p className="text-sm text-[var(--color-text-secondary)] mb-6">
+            Tem certeza que deseja excluir o pedido <strong className="text-white">#{deleteConfirm.pedido_tiny}</strong>? Esta ação não pode ser desfeita.
+          </p>
+          <div className="flex gap-3">
+            <Button variant="secondary" className="flex-1" onClick={() => setDeleteConfirm(null)}>
+              Cancelar
+            </Button>
+            <Button className="flex-1 bg-[#EF4444] hover:bg-[#DC2626] shadow-[0_0_15px_rgba(239,68,68,0.3)]" onClick={confirmDelete}>
+              Excluir
+            </Button>
+          </div>
+        </Card>
+      </div>
+    )}
+
+    {/* Toast Animado */}
+    {toast && (
+      <div className={`fixed bottom-8 right-8 z-50 px-6 py-4 rounded-xl text-sm font-medium shadow-2xl flex items-center gap-3 border ${
+        toast.type === 'success' 
+          ? 'bg-[#064E3B] text-[#34D399] border-[#10B981]/30' 
+          : 'bg-[#7F1D1D] text-[#FCA5A5] border-[#EF4444]/30'
+      } ${toast.exiting ? 'animate-fade-out-down' : 'animate-fade-in-up'}`}>
+        {toast.type === 'success' ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
+        {toast.message}
+      </div>
+    )}
+    </>
   )
 }

@@ -17,7 +17,7 @@ start "Frontend (Tela)" cmd /c "cd frontend && npx vite --host"
 
 echo [3/3] Criando Link Seguro para Acesso Remoto (Celular)...
 if exist cloudflare.log del cloudflare.log
-start "Link Remoto (Cloudflare)" /min cmd /c "npx -y cloudflared tunnel --url http://localhost:5173 > cloudflare.log 2>&1"
+start "Link Remoto (Cloudflare)" /min cmd /c "npx -y cloudflared tunnel --protocol http2 --url http://localhost:5173 > cloudflare.log 2>&1"
 
 echo.
 echo Aguardando geracao do link seguro... (isso pode levar alguns segundos)

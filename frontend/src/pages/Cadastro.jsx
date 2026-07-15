@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { listarPedidos, formatarValor, STATUS_MAP } from '../api/pedidos'
 import { Card } from '../components/ui/Card'
+import DetailModal from '../components/DetailModal'
 import { Badge } from '../components/ui/Badge'
 import { 
   FileText, Activity, CheckCircle2, TrendingUp, AlertTriangle, 
@@ -10,6 +11,7 @@ import {
 export default function Cadastro() {
   const [pedidos, setPedidos] = useState([])
   const [ultimosPedidos, setUltimosPedidos] = useState([])
+  const [selectedPedido, setSelectedPedido] = useState(null)
   const [metricas, setMetricas] = useState({
     total: 0,
     valorAberto: 0,
@@ -257,7 +259,8 @@ export default function Cadastro() {
                     return (
                       <tr 
                         key={pedido.id} 
-                        className="border-b border-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.02)] transition-colors group"
+                        className="border-b border-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.02)] transition-colors group cursor-pointer"
+                        onClick={() => setSelectedPedido(pedido)}
                       >
                         <td className="py-3.5 px-5">
                           <div className="flex items-center gap-3">
@@ -301,6 +304,10 @@ export default function Cadastro() {
           )}
         </Card>
       </div>
+      {/* Detail Modal */}
+      {selectedPedido && (
+        <DetailModal pedido={selectedPedido} onClose={() => setSelectedPedido(null)} />
+      )}
     </div>
   )
 }

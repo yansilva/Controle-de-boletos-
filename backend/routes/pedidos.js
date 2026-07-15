@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getDB, saveDB } = require('../db');
 
-const STATUSES_VALIDOS = ['falta_dda', 'aguardando_dda', 'dda_lancado'];
+const STATUSES_VALIDOS = ['falta_dda', 'aguardando_dda', 'dda_lancado', 'concluido'];
 
 // Helper para converter resultado sql.js para array de objetos
 function queryAll(sql, params = []) {
@@ -71,9 +71,10 @@ function saveParcelas(pedidoId, parcelas) {
 // GET /api/pedidos — Listar todos com filtros opcionais
 router.get('/', (req, res) => {
   try {
-    // Limpeza automática: Remover pedidos 'dda_lancado' 1 dia após o vencimento
+    // Mover pedidos vencidos para 'concluido' (ocultos do quadro, mas preservados no banco)
     runSQL(`
-      DELETE FROM pedidos 
+      UPDATE pedidos 
+      SET status = 'concluido', atualizado_em = datetime('now', 'localtime')
       WHERE status = 'dda_lancado' 
         AND data_vencimento IS NOT NULL 
         AND data_vencimento != ''
@@ -82,7 +83,7 @@ router.get('/', (req, res) => {
 
     const { status, data_inicio, data_fim, valor_min, valor_max, busca } = req.query;
 
-    let sql = 'SELECT * FROM pedidos WHERE 1=1';
+    let sql = "SELECT * FROM pedidos WHERE status != 'concluido'";
     const params = [];
 
     if (status && STATUSES_VALIDOS.includes(status)) {

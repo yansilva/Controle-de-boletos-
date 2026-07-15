@@ -58,7 +58,7 @@ export default function PedidoCard({ pedido, provided, isDragging, onAtencaoTogg
       >
         {/* Atention Badge absolute */}
         {pedido.atencao === 1 && (
-          <div className="absolute -top-2.5 -right-2.5 bg-[#EF4444] text-white p-1.5 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]">
+          <div className="absolute top-3 right-3 bg-[#EF4444] text-white p-1.5 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)] z-10">
             <AlertTriangle size={14} />
           </div>
         )}

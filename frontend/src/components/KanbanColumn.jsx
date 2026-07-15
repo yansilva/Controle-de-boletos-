@@ -34,7 +34,7 @@ export default function KanbanColumn({ statusKey, pedidos, onAtencaoToggle, onEd
   const Icon = colors.icon
 
   return (
-    <div className={`flex flex-col rounded-2xl h-full border ${colors.border} bg-[#111827] shadow-sm min-w-[320px] overflow-hidden transition-colors`}>
+    <div className={`flex flex-col w-full rounded-2xl h-full border ${colors.border} bg-[#111827] shadow-sm transition-colors`}>
       {/* Column Header */}
       <div className={`px-5 py-4 border-b ${colors.border} ${colors.headerBg}`}>
         <div className="flex items-center justify-between">
@@ -54,7 +54,7 @@ export default function KanbanColumn({ statusKey, pedidos, onAtencaoToggle, onEd
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`flex-1 p-4 overflow-y-auto transition-colors duration-200 ${snapshot.isDraggingOver ? colors.dropBg : 'bg-transparent'}`}
+            className={`flex-1 p-4 overflow-y-auto overflow-x-visible transition-colors duration-200 ${snapshot.isDraggingOver ? colors.dropBg : 'bg-transparent'}`}
             style={{ minHeight: '300px' }}
           >
             <div className="space-y-4">

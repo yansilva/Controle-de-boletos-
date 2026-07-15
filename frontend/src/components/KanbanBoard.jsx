@@ -45,19 +45,20 @@ export default function KanbanBoard({ pedidos, onStatusChange, onAtencaoToggle, 
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="w-full overflow-x-auto pb-3 px-1">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:min-w-[980px] xl:min-w-0" style={{ minHeight: '500px' }}>
+      <div className="w-full pb-3 px-1">
+        <div className="flex flex-col md:flex-row gap-4 min-h-[500px] w-full">
           {COLUNAS_ORDER.map(statusKey => (
-            <KanbanColumn
-              key={statusKey}
-              statusKey={statusKey}
-              pedidos={colunas[statusKey]}
-              onAtencaoToggle={onAtencaoToggle}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onHistorico={onHistorico}
-              onView={onView}
-            />
+            <div key={statusKey} className="w-full md:flex-1 md:min-w-0">
+              <KanbanColumn
+                statusKey={statusKey}
+                pedidos={colunas[statusKey]}
+                onAtencaoToggle={onAtencaoToggle}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onHistorico={onHistorico}
+                onView={onView}
+              />
+            </div>
           ))}
         </div>
       </div>
