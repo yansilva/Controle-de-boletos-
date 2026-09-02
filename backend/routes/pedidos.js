@@ -68,6 +68,19 @@ function saveParcelas(pedidoId, parcelas) {
   }
 }
 
+// GET /api/pedidos/produtores — Listar produtores únicos para autocomplete
+router.get('/produtores', (req, res) => {
+  try {
+    const produtores = queryAll(
+      "SELECT DISTINCT produtor FROM pedidos WHERE produtor IS NOT NULL AND produtor != '' ORDER BY produtor ASC"
+    );
+    res.json(produtores.map(p => p.produtor));
+  } catch (error) {
+    console.error('Erro ao listar produtores:', error);
+    res.status(500).json({ error: 'Erro ao listar produtores' });
+  }
+});
+
 // GET /api/pedidos — Listar todos com filtros opcionais
 router.get('/', (req, res) => {
   try {
@@ -112,9 +125,9 @@ router.get('/', (req, res) => {
     }
 
     if (busca) {
-      sql += ' AND (pedido_tiny LIKE ? OR numero_nf LIKE ? OR digitos_boleto LIKE ?)';
+      sql += ' AND (pedido_tiny LIKE ? OR numero_nf LIKE ? OR digitos_boleto LIKE ? OR produtor LIKE ?)';
       const termo = `%${busca}%`;
-      params.push(termo, termo, termo);
+      params.push(termo, termo, termo, termo);
     }
 
     // Ordenar por data de vencimento efetiva (mais próxima primeiro)
@@ -216,7 +229,7 @@ router.get('/:id/historico', (req, res) => {
 // POST /api/pedidos — Criar novo pedido
 router.post('/', (req, res) => {
   try {
-    const { pedido_tiny, numero_nf, digitos_boleto, valor, data_vencimento, observacoes, parcelamento, status, atencao, parcelas } = req.body;
+    const { pedido_tiny, numero_nf, digitos_boleto, valor, data_vencimento, observacoes, parcelamento, status, atencao, parcelas, produtor } = req.body;
 
     // Validação
     if (!pedido_tiny || !numero_nf || valor === undefined || valor === null) {
@@ -227,9 +240,9 @@ router.post('/', (req, res) => {
     const atencaoFinal = atencao ? 1 : 0;
 
     const lastId = runSQL(
-      `INSERT INTO pedidos (pedido_tiny, numero_nf, digitos_boleto, valor, data_vencimento, observacoes, parcelamento, status, atencao)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [pedido_tiny, numero_nf, digitos_boleto || null, parseFloat(valor), data_vencimento || null, observacoes || null, parcelamento || null, statusFinal, atencaoFinal]
+      `INSERT INTO pedidos (pedido_tiny, numero_nf, digitos_boleto, valor, data_vencimento, observacoes, parcelamento, status, atencao, produtor)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [pedido_tiny, numero_nf, digitos_boleto || null, parseFloat(valor), data_vencimento || null, observacoes || null, parcelamento || null, statusFinal, atencaoFinal, produtor || null]
     );
 
     // Salvar parcelas se existirem
@@ -256,7 +269,7 @@ router.post('/', (req, res) => {
 // PUT /api/pedidos/:id — Editar pedido completo
 router.put('/:id', (req, res) => {
   try {
-    const { pedido_tiny, numero_nf, digitos_boleto, valor, data_vencimento, observacoes, parcelamento, status, atencao, parcelas } = req.body;
+    const { pedido_tiny, numero_nf, digitos_boleto, valor, data_vencimento, observacoes, parcelamento, status, atencao, parcelas, produtor } = req.body;
     const id = Number(req.params.id);
 
     const pedidoAtual = queryOne('SELECT * FROM pedidos WHERE id = ?', [id]);
@@ -273,9 +286,9 @@ router.put('/:id', (req, res) => {
 
     runSQL(
       `UPDATE pedidos
-       SET pedido_tiny = ?, numero_nf = ?, digitos_boleto = ?, valor = ?, data_vencimento = ?, observacoes = ?, parcelamento = ?, status = ?, atencao = ?, atualizado_em = datetime('now', 'localtime')
+       SET pedido_tiny = ?, numero_nf = ?, digitos_boleto = ?, valor = ?, data_vencimento = ?, observacoes = ?, parcelamento = ?, status = ?, atencao = ?, produtor = ?, atualizado_em = datetime('now', 'localtime')
        WHERE id = ?`,
-      [pedido_tiny, numero_nf, digitos_boleto || null, parseFloat(valor), data_vencimento || null, observacoes || null, parcelamento || null, statusFinal, atencaoFinal, id]
+      [pedido_tiny, numero_nf, digitos_boleto || null, parseFloat(valor), data_vencimento || null, observacoes || null, parcelamento || null, statusFinal, atencaoFinal, produtor || null, id]
     );
 
     // Atualizar parcelas

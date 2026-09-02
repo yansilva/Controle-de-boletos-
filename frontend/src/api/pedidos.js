@@ -86,6 +86,12 @@ export async function buscarHistorico(id) {
   return res.json();
 }
 
+export async function listarProdutores() {
+  const res = await fetch(`${API_BASE}/produtores`);
+  if (!res.ok) throw new Error('Erro ao listar produtores');
+  return res.json();
+}
+
 // Helpers de formatação
 export const STATUS_MAP = {
   falta_dda: { label: 'Falta o DDA', color: 'red' },

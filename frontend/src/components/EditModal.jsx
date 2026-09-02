@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { editarPedido, calcularValorParcela, formatarValor } from '../api/pedidos'
+import ProdutorAutocomplete from './ProdutorAutocomplete'
 import { 
   X, Save, FileText, FileDigit, Calendar, DollarSign, 
   Layers, AlertTriangle, Loader2 
@@ -24,6 +25,7 @@ export default function EditModal({ pedido, onClose, onSaved }) {
     num_parcelas: 1,
     status: 'falta_dda',
     atencao: false,
+    produtor: '',
   })
   const [parcelas, setParcelas] = useState([])
   const [loading, setLoading] = useState(false)
@@ -65,6 +67,7 @@ export default function EditModal({ pedido, onClose, onSaved }) {
         num_parcelas: numParcelas,
         status: pedido.status || 'falta_dda',
         atencao: pedido.atencao === 1,
+        produtor: pedido.produtor || '',
       })
 
       if (numParcelas > 1 && pedido.parcelas && pedido.parcelas.length > 0) {
@@ -187,6 +190,7 @@ export default function EditModal({ pedido, onClose, onSaved }) {
         status: form.status,
         atencao: form.atencao,
         parcelas: form.num_parcelas > 1 ? parcelas : [],
+        produtor: form.produtor,
       }
 
       await editarPedido(pedido.id, dadosEnvio)
@@ -298,6 +302,12 @@ export default function EditModal({ pedido, onClose, onSaved }) {
                   </div>
                 </div>
               )}
+              <ProdutorAutocomplete
+                value={form.produtor}
+                onChange={(val) => setForm(prev => ({ ...prev, produtor: val }))}
+                inputClass={inputClass}
+                labelClass={labelClass}
+              />
             </div>
           </section>
 

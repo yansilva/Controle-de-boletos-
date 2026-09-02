@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { criarPedido, formatarValor } from '../api/pedidos'
+import ProdutorAutocomplete from './ProdutorAutocomplete'
 import { 
   FileText, FileDigit, Calendar, DollarSign, Layers, 
   AlertTriangle, Save, CheckCircle2, XCircle, X, Plus, Loader2 
@@ -24,6 +25,7 @@ export default function CadastroPedido({ isOpen, onClose, onPedidoCriado }) {
     num_parcelas: 1,
     status: 'falta_dda',
     atencao: false,
+    produtor: '',
   })
   const [parcelas, setParcelas] = useState([])
   const [loading, setLoading] = useState(false)
@@ -48,7 +50,7 @@ export default function CadastroPedido({ isOpen, onClose, onPedidoCriado }) {
   }, [isOpen, onClose])
 
   function resetForm() {
-    setForm({ pedido_tiny: '', numero_nf: '', digitos_boleto: '', valor: '', data_vencimento: '', observacoes: '', num_parcelas: 1, status: 'falta_dda', atencao: false })
+    setForm({ pedido_tiny: '', numero_nf: '', digitos_boleto: '', valor: '', data_vencimento: '', observacoes: '', num_parcelas: 1, status: 'falta_dda', atencao: false, produtor: '' })
     setParcelas([])
     setSuccess(false)
     setError('')
@@ -133,6 +135,7 @@ export default function CadastroPedido({ isOpen, onClose, onPedidoCriado }) {
         status: form.status,
         atencao: form.atencao,
         parcelas: form.num_parcelas > 1 ? parcelas : [],
+        produtor: form.produtor,
       }
 
       await criarPedido(dadosEnvio)
@@ -256,6 +259,12 @@ export default function CadastroPedido({ isOpen, onClose, onPedidoCriado }) {
                       </div>
                     </div>
                   )}
+                  <ProdutorAutocomplete
+                    value={form.produtor}
+                    onChange={(val) => setForm(prev => ({ ...prev, produtor: val }))}
+                    inputClass={inputClass}
+                    labelClass={labelClass}
+                  />
                 </div>
               </section>
 

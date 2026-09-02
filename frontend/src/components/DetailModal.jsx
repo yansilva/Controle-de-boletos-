@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { formatarValor, formatarDataCurta, formatarData, calcularValorParcela, STATUS_MAP, buscarHistorico } from '../api/pedidos'
 import { 
   X, Edit, FileText, Calendar, Hash, Receipt, Barcode, Layers, 
-  Package, Clock, CheckCircle2, AlertTriangle, AlertCircle, DollarSign, Loader2 
+  Package, Clock, CheckCircle2, AlertTriangle, AlertCircle, DollarSign, Loader2, User 
 } from 'lucide-react'
 
 const statusOptions = {
@@ -104,6 +104,11 @@ export default function DetailModal({ pedido, onClose, onEdit }) {
                 icon={Layers} 
                 label="Parcelas" 
                 value={pedido.parcelamento ? `${pedido.parcelamento}x` : '1'} 
+              />
+              <InfoItem 
+                icon={User} 
+                label="Produtor" 
+                value={pedido.produtor || '—'} 
               />
               <InfoItem 
                 icon={Calendar} 

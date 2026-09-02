@@ -61,6 +61,13 @@ async function initDB() {
     // Ignora se a coluna já existir
   }
 
+  // Migração: adicionar coluna produtor se não existir
+  try {
+    db.run("ALTER TABLE pedidos ADD COLUMN produtor TEXT");
+  } catch (e) {
+    // Ignora se a coluna já existir
+  }
+
   db.run(`
     CREATE TABLE IF NOT EXISTS pedido_historico (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

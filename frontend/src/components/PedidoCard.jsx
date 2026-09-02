@@ -1,5 +1,5 @@
 import { formatarValor, formatarDataCurta, calcularValorParcela } from '../api/pedidos'
-import { AlertCircle, History, Edit2, Trash2, Calendar, FileText, Receipt, Layers, AlertTriangle } from 'lucide-react'
+import { AlertCircle, History, Edit2, Trash2, Calendar, FileText, Receipt, Layers, AlertTriangle, User } from 'lucide-react'
 
 export default function PedidoCard({ pedido, provided, isDragging, onAtencaoToggle, onEdit, onDelete, onHistorico, onView }) {
   function handleCardClick(e) {
@@ -113,6 +113,14 @@ export default function PedidoCard({ pedido, provided, isDragging, onAtencaoTogg
             {formatarValor(pedido.valor)}
           </p>
         </div>
+
+        {/* Produtor */}
+        {pedido.produtor && (
+          <div className="flex items-center gap-1.5 mb-3 px-2.5 py-1.5 rounded-lg bg-[rgba(124,58,237,0.08)] border border-[rgba(124,58,237,0.15)] w-fit">
+            <User size={12} className="text-[var(--color-accent)]" />
+            <span className="text-xs font-semibold text-[var(--color-accent)]">{pedido.produtor}</span>
+          </div>
+        )}
 
         {/* Info grid */}
         <div className="space-y-2.5">
