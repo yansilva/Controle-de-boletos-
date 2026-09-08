@@ -90,6 +90,7 @@ export default function FilterBar({ onFilter, onClear }) {
               <input
                 id="filter-valor-min"
                 type="number"
+                inputMode="decimal"
                 name="valor_min"
                 value={filters.valor_min}
                 onChange={handleChange}
@@ -103,6 +104,7 @@ export default function FilterBar({ onFilter, onClear }) {
               <input
                 id="filter-valor-max"
                 type="number"
+                inputMode="decimal"
                 name="valor_max"
                 value={filters.valor_max}
                 onChange={handleChange}

@@ -319,7 +319,7 @@ export default function EditModal({ pedido, onClose, onSaved }) {
                 <label className={labelClass}>Valor</label>
                 <div className="relative">
                   <DollarSign size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
-                  <input type="text" name="valor" value={form.valor} onChange={handleValorChange} className={inputClass} placeholder="0,00" />
+                  <input type="text" inputMode="decimal" name="valor" value={form.valor} onChange={handleValorChange} className={inputClass} placeholder="0,00" />
                 </div>
               </div>
               <div>

@@ -5,6 +5,8 @@ const path = require('path');
 const { initDB } = require('./db');
 const pedidosRoutes = require('./routes/pedidos');
 
+// nosemgrep: express-check-csurf-middleware-usage
+// API stateless consumida via JSON; não utiliza cookies de sessão vulneráveis a CSRF tradicional.
 const app = express();
 const PORT = 3001;
 

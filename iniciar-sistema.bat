@@ -8,6 +8,7 @@ echo ========================================================
 echo.
 
 cd /d "%~dp0"
+set "PATH=C:\Program Files\nodejs;%PATH%"
 
 echo [1/3] Iniciando o Banco de Dados e Backend...
 start "Backend (Servidor)" cmd /c "node backend/server.js"
