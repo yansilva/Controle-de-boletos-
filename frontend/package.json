@@ -13,7 +13,11 @@
     "lucide-react": "^1.23.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-router": "^8.3.1",
     "react-router-dom": "^7.18.3"
+  },
+  "overrides": {
+    "react-router": "^8.3.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.8",

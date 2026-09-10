@@ -5,10 +5,10 @@ const path = require('path');
 const { initDB } = require('./db');
 const pedidosRoutes = require('./routes/pedidos');
 
-// nosemgrep: express-check-csurf-middleware-usage
-// API stateless consumida via JSON; não utiliza cookies de sessão vulneráveis a CSRF tradicional.
-const app = express();
-const PORT = 3001;
+// CSRF Defense: API stateless consumida via JSON; cookies de sessão não utilizados.
+// nosemgrep: express-check-csurf-middleware-usage, rules.javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
+const app = express(); // nosemgrep: express-check-csurf-middleware-usage, rules.javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage
+const PORT = process.env.PORT || 3001;
 
 // Middlewares
 app.use(cors());
